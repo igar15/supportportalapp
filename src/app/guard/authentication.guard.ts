@@ -16,11 +16,11 @@ constructor(private authenticationService: AuthenticationService, private router
   }
 
   private isUserLoggedIn(): boolean {
-    if (this.authenticationService.isUserLoggedIn) {
+    if (this.authenticationService.isUserLoggedIn()) {
       return true;
     }
     this.router.navigate(['/login']);
-    this.notificationService.notify(NotificationType.ERROR, 'You need to login to access this page'.toUpperCase());
+    this.notificationService.notify(NotificationType.ERROR, 'You need to login to access this page');
     return false;
   }
   
