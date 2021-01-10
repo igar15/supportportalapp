@@ -21,6 +21,8 @@ export class UserComponent implements OnInit {
   public selectedUser: User;
   public fileName: string;
   public profileImage: File;
+  public editUser = new User();
+  private currentUserName: string;
 
   constructor(private userService: UserService, private notificationService: NotificationService) { }
 
@@ -76,7 +78,7 @@ export class UserComponent implements OnInit {
           this.fileName = null;
           this.profileImage = null;
           userForm.reset();
-          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updated successfully`);
+          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} added successfully`);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -100,6 +102,31 @@ export class UserComponent implements OnInit {
     // if (results.length === 0 || !searchTerm) {
     //   this.users = this.userService.getUsersFromLocalCache();
     // }
+  }
+
+  public onEditUser(editUser: User): void {
+    this.editUser = editUser;
+    this.currentUserName = editUser.userName;
+    this.clickButton('openUserEdit');
+  }
+
+  public onUpdateUser(): void {
+    const formData = this.userService.createUserFormData(this.currentUserName, this.editUser, this.profileImage);
+    this.subscriptions.push(
+      this.userService.updateUser(formData).subscribe(
+        (response: User) => {
+          this.clickButton('closeEditUserModalButton');
+          this.getUsers(false);
+          this.fileName = null;
+          this.profileImage = null;
+          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updated successfully`);
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+          this.profileImage = null;
+        }
+      )
+    );
   }
 
   private sendNotification(notificationType: NotificationType, message: string) {
