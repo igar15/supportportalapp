@@ -79,7 +79,7 @@
             <td class="">
               <div class="btn-group">
                 <button class="btn btn-outline-info" (click)="onEditUser(appUser)"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-outline-danger" (click)="onDeleteUser(appUser?.id)"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-outline-danger" (click)="onDeleteUser(appUser?.userName)"><i class="fas fa-trash"></i></button>
               </div>
             </td>
           </tr>
@@ -391,7 +391,7 @@
                     <span class="input-group-text">Profile Picture </span>
                   </div>
                   <div class="custom-file">
-                    <input type="file" name="profileImage" (change)="onProfileImageChange($event.target.files[0].name, $event.target.files[0])"
+                    <input type="file" name="profileImage" accept="image/*" (change)="onProfileImageChange($event.target.files[0].name, $event.target.files[0])"
                       class="custom-file-input">
                     <label class="custom-file-label"><span [hidden]="!fileName">{{ fileName }}</span>
                       <span [hidden]="fileName">Choose File</span>
@@ -474,7 +474,7 @@
                 <span class="input-group-text">Profile Picture </span>
               </div>
               <div class="custom-file">
-                <input type="file" name="profileImage"
+                <input type="file" name="profileImage" accept="image/*"
                   (change)="onProfileImageChange($event.target.files[0].name, $event.target.files[0])"
                   class="custom-file-input">
                 <label class="custom-file-label"><span [hidden]="!fileName">{{fileName}}</span>
@@ -513,7 +513,7 @@
 <form enctype="multipart/form-data" style="display:none;">
   <input type="file"
     (change)="onProfileImageChange($event.target.files[0].name, $event.target.files[0]); onUpdateProfileImage()"
-   name="profile-image-input" id="profile-image-input" placeholder="file" accept="*" />
+   name="profile-image-input" id="profile-image-input" placeholder="file" accept="image/*" />
 </form>
 
 </div>
